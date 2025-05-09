@@ -64,6 +64,8 @@ class CosmicWave extends HTMLElement {
     this.height = this.vertical ? 1440 : 160;
 
     this.startEndZero = this.getAttribute( 'data-start-end-zero' ) === 'true'
+    this.startZero = this.getAttribute( 'data-start-zero' ) === 'true'
+    this.endZero = this.getAttribute( 'data-end-zero' ) === 'true'
 
     // Initialize current and target paths
     this.currentPath = generateWave({
@@ -72,7 +74,9 @@ class CosmicWave extends HTMLElement {
       points: this.points,
       variance: this.variance,
       vertical: this.vertical,
-      startEndZero: this.startEndZero
+      startEndZero: this.startEndZero,
+      startZero: this.startZero,
+      endZero: this.endZero
     });
 
     this.targetPath = generateWave({
@@ -81,12 +85,17 @@ class CosmicWave extends HTMLElement {
       points: this.points,
       variance: this.variance,
       vertical: this.vertical,
-      startEndZero: this.startEndZero
+      startEndZero: this.startEndZero,
+      startZero: this.startZero,
+      endZero: this.endZero
     });
 
     // Construct the SVG
     this.innerHTML = `
+      <?xml version="1.0" encoding="utf-8"?>
+      <!--@huement/cosmicwave-->
       <svg
+        version="1.1"
         viewBox="${this.vertical ? "0 0 160 1440" : "0 0 1440 160"}"
         preserveAspectRatio="none"
         class="${classes || ""}"
@@ -94,6 +103,8 @@ class CosmicWave extends HTMLElement {
         id="${id}"
         aria-hidden="true"
         role="presentation"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
       >
         <path d="${this.currentPath}" style="stroke:inherit; fill: inherit"></path>
       </svg>
@@ -146,7 +157,9 @@ class CosmicWave extends HTMLElement {
           points: this.points,
           variance: this.variance,
           vertical: this.vertical,
-          startEndZero: this.startEndZero
+          startEndZero: this.startEndZero,
+          startZero: this.startZero,
+          endZero: this.endZero
         });
       }
 
@@ -165,7 +178,9 @@ class CosmicWave extends HTMLElement {
           points: this.points,
           variance: this.variance,
           vertical: this.vertical,
-          startEndZero: this.startEndZero
+          startEndZero: this.startEndZero,
+          startZero: this.startZero,
+          endZero: this.endZero
         });
 
         // Continue the animation loop if still playing
@@ -283,7 +298,9 @@ class CosmicWave extends HTMLElement {
       points: this.points,
       variance: this.variance,
       vertical: this.vertical,
-      startEndZero: this.startEndZero
+      startEndZero: this.startEndZero,
+      startZero: this.startZero,
+      endZero: this.endZero
     });
 
     // Animate from current path to new target
@@ -321,7 +338,9 @@ class CosmicWave extends HTMLElement {
         points: this.points,
         variance: this.variance,
         vertical: this.vertical,
-        startEndZero: this.startEndZero
+        startEndZero: this.startEndZero,
+        startZero: this.startZero,
+        endZero: this.endZero
       });
 
       this.targetPath = generateWave({
@@ -330,7 +349,9 @@ class CosmicWave extends HTMLElement {
         points: this.points,
         variance: this.variance,
         vertical: this.vertical,
-        startEndZero: this.startEndZero
+        startEndZero: this.startEndZero,
+        startZero: this.startZero,
+        endZero: this.endZero
       });
 
       return;
@@ -398,12 +419,24 @@ function generateWave({ width, height, points, variance, vertical = false, start
   }
 
   if ( startEndZero ) {
-    if (vertical) {
-      anchors[0].x = 0;
-      anchors[anchors.length - 1].x = 0;
+    if ( vertical ) {
+      anchors[ 0 ].x = 0;
+      anchors[ anchors.length - 1 ].x = 0;
     } else {
-      anchors[0].y = height;
-      anchors[anchors.length - 1].y = height;
+      anchors[ 0 ].y = height;
+      anchors[ anchors.length - 1 ].y = height;
+    }
+  } else if ( startZero ) {
+    if ( vertical ) {
+      anchors[ 0 ].x = 0;
+    } else {
+      anchors[ 0 ].y = height;
+    }
+  } else if ( endZero ) {
+    if ( vertical ) {
+      anchors[ anchors.length - 1 ].x = 0;
+    } else {
+      anchors[ anchors.length - 1 ].y = height;
     }
   }
 
