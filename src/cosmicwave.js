@@ -404,7 +404,7 @@ customElements.define("cosmic-wave", CosmicWave);
  * @param {boolean} [options.startEndZero=false] - Whether the wave should start and end small
  * @returns {string} The SVG path string representing the wave.
  */
-function generateWave({ width, height, points, variance, vertical = false, startEndZero = false }) {
+function generateWave({ width, height, points, variance, vertical = false, startEndZero = false, startZero = false, endZero = false }) {
   const anchors = [];
   const step = vertical ? height / (points - 1) : width / (points - 1);
 
