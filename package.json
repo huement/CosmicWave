@@ -1,6 +1,6 @@
 {
   "name": "@huement/cosmicwave",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "type": "module",
   "description": "Lightweight, dependency-free SVG wave templates that dynamically generate themselves on render.",
   "main": "dist/cosmicwave.js",
