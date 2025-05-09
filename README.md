@@ -7,7 +7,7 @@ Create dynamic SVG '**waves**' on each page render or animate them for never end
 **Javascript**
 
 ```javascript
-import 'cosmicwave';
+import '@huement/cosmicwave'
 ```
 
 **CSS**
