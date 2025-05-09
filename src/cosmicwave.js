@@ -429,13 +429,17 @@ function generateWave({ width, height, points, variance, vertical = false, start
   } else if ( startZero ) {
     if ( vertical ) {
       anchors[ 0 ].x = 0;
+      anchors[ anchors.length - 1 ].x = height;
     } else {
       anchors[ 0 ].y = height;
+      anchors[ anchors.length - 1 ].y = 0;
     }
   } else if ( endZero ) {
     if ( vertical ) {
+      anchors[ 0 ].x = height;
       anchors[ anchors.length - 1 ].x = 0;
     } else {
+      anchors[ 0 ].y = 0;
       anchors[ anchors.length - 1 ].y = height;
     }
   }
