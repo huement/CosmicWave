@@ -10,9 +10,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c && npm run copy-to-docs",
+    "copy-to-docs": "cp dist/cosmicwave.js dist/cosmicwave.min.js dist/cosmicwave.d.ts docs/",
     "prepublishOnly": "npm run build",
-    "definitionFile": "tsc src/cosmicwave.js --declaration --allowJs --emitDeclarationOnly --outDir src"
+    "definitionFile": "tsc src/cosmicwave.js --declaration --allowJs --emitDeclarationOnly --outDir src",
+    "serve": "http-server docs -p 8080 -o"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
   "homepage": "https://CosmicWave.huement.com/",
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
+    "http-server": "^14.1.1",
     "rollup": "^3.29.4",
     "rollup-plugin-dts": "^6.1.1"
   }
