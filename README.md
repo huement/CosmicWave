@@ -1,3 +1,5 @@
+# ![preview](preview.png)
+
 # CosmicWave
 
 Create dynamic SVG '**waves**' on each page render or animate them for never ending movement. Each wave is tied to a single HTML element whose attributes control the wave parameters.
@@ -10,6 +12,9 @@ the holy trinity of JS+CSS+HTML could not be simplier to setup.
 
 ```javascript
 import '@huement/cosmicwave'
+
+// OR CDN URL 
+<script src="https://cdn.jsdelivr.net/gh/huement/CosmicWave@main/dist/cosmicwave.min.js" crossorigin="anonymous"></script>
 ```
 
 **CSS**
@@ -28,7 +33,7 @@ svg {
 <cosmic-wave data-start-zero=true></cosmic-wave>
 ```
 
-[Documentation + Examples](https://huement.github.io/Cosmicwave)
+[Documentation + Examples](https://huement.github.io/CosmicWave)
 
 
 ### ADVANCED USAGE

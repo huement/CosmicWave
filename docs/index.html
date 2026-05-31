@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
   <link rel="manifest" href="./site.webmanifest">
   <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#557c7c">
-  <meta property="og:title" content="Cosmicwave" />
+  <meta property="og:title" content="CosmicWave" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://huement.github.io/CosmicWave" />
   <meta name="og:description" content="Lightweight, jQuery-based SVG wave templates that shuffle themselves on render.">
@@ -202,7 +202,7 @@
         </g>
       </svg>
     </a>
-    <h1 style="position: absolute;overflow: hidden; width:.1px;height:.1px;opacity:0" id="heading">Cosmicwave</h1>
+    <h1 style="position: absolute;overflow: hidden; width:.1px;height:.1px;opacity:0" id="heading">CosmicWave</h1>
     <p style="opacity:.75;color:var(--theme-dark);font-size:1.5rem;margin:1rem 0 2rem;max-width:none">
       Buttery smooth <strong>HTML</strong> templates
       that <strong id="shuffle">randomly generate</strong> themselves on render.<br><span
@@ -223,31 +223,31 @@
       <div>
         <h2 id="installationHeader">Installation</h2>
         <p style="margin:0 0 1.25rem">
-          To make render times functionally instant, <strong>Cosmicwave</strong> intentionally eskews importing a
+          To make render times functionally instant, <strong>CosmicWave</strong> intentionally eskews importing a
           library
           such as <b>SVG.js</b> to build a new SVG on execution.<br><br>
           Instead, it selects at random from a curated collection of potential
           <strong><code>&lt;paths&gt;</code></strong>
           and leverages <strong>HTML web components</strong> (sorry, IE) to allow it to easily grab its reference
           element's applied attributes and then fully replaces the reference with a slick lil' wave.<br><br>
-          You can install <strong>Cosmicwave</strong> via npm or by including the script file directly in your project.
+          You can install <strong>CosmicWave</strong> via npm or by including the script file directly in your project.
         </p>
         <h3>npm Installation</h3>
         <p>
-          To install <strong>Cosmicwave</strong> via npm, run the following command:
+          To install <strong>CosmicWave</strong> via npm, run the following command:
         </p>
         <pre>
           <code class="bash">npm install @huement/cosmicwave</code>
         </pre>
         <p>
-          After installation, you can import <strong>Cosmicwave</strong> in your JavaScript or TypeScript files:
+          After installation, you can import <strong>CosmicWave</strong> in your JavaScript or TypeScript files:
         </p>
         <pre>
           <code class="javascript">import '@huement/cosmicwave';</code>
         </pre>
         <h4>Angular Setup</h4>
         <p>
-          To use <strong>Cosmicwave</strong> in an Angular project, follow these additional steps:
+          To use <strong>CosmicWave</strong> in an Angular project, follow these additional steps:
         </p>
         <ol>
           <li>
@@ -276,14 +276,14 @@
         </ol>
         <h3>Script Installation</h3>
         <p>
-          Alternatively, you can include the <strong>Cosmicwave</strong> script file directly in your project:
+          Alternatively, you can include the <strong>CosmicWave</strong> script file directly in your project:
         </p>
         <pre>
           <code class="html">&lt;!-- Download and add to your project locally -->
             &lt;script src="path/to/cosmicwave.js"&gt;&lt;/script&gt;
   
             &lt;!-- Or, reference the CDN -->
-            &lt;script src="https://cdn.jsdelivr.net/gh/@huement/Cosmicwave/dist/cosmicwave.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+            &lt;script src="https://cdn.jsdelivr.net/gh/huement/CosmicWave@main/dist/cosmicwave.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
           </code>
   </pre>
       </div>
@@ -292,7 +292,7 @@
       <div>
         <h2 id="usageHeader">Usage</h2>
         <p>
-          Since <strong>Cosmicwave</strong> use HTML templating syntax, all it takes to call one is to add the custom
+          Since <strong>CosmicWave</strong> use HTML templating syntax, all it takes to call one is to add the custom
           element to your HTML!</p>
         <pre>
           <code class="html">&lt;!-- Without any added attributes you get a top facing wave filled with the current color of its parent --> 
@@ -338,7 +338,7 @@
       <div>
         <h3>Data Attributes</h3>
         <p style="margin-bottom:1rem">
-          <strong>Cosmicwave</strong> come out of the box with a variety of data attributes that can be used to
+          <strong>CosmicWave</strong> come out of the box with a variety of data attributes that can be used to
           customize their
           appearance and behavior.
         </p>
@@ -550,7 +550,7 @@
       <div>
         <h3>Available Functions</h3>
         <p style="margin-bottom:1rem">
-          <strong>Cosmicwave</strong> come with a few functions that can be called to manipulate the wave after it's
+          <strong>CosmicWave</strong> come with a few functions that can be called to manipulate the wave after it's
           been rendered.
         </p>
         <h4>.generateNewWave()</h4>
@@ -603,7 +603,7 @@ function toggleWaveAnimation() {
       <div>
         <h2 id="practicalApplicationHeader">Practical Application</h2>
         <p>
-          <strong>Cosmicwave</strong> come out of the box entirely style agnostic. The onus is on the developer to add
+          <strong>CosmicWave</strong> come out of the box entirely style agnostic. The onus is on the developer to add
           the necessary attributes to get them to fit their intended platform, but at the same time this provides nearly
           endless possibilities for customization.<br><br>
           Make use of <strong><code>position:sticky</code></strong> and create a neat little header!
@@ -707,7 +707,7 @@ function toggleWaveAnimation() {
       <div>
         <h2 id="diveDeeperHeading">Dive Deeper</h2>
         <p>
-          Take a more in-depth look at the process behind <b>Cosmicwave</b> in the article <a rel="external"
+          Take a more in-depth look at the process behind <b>CosmicWave</b> in the article <a rel="external"
             target="_blank"
             href="https://www.markzebley.com/#/article?slug=so-fresh-so-wavy&anchor=so-fresh-so-wavy_wrapper"
             class="link"><b><em>So fresh. So wavy.</em></b></a> on <a target="_blank" href="https://markzebley.com"
@@ -720,22 +720,22 @@ function toggleWaveAnimation() {
   </main>
   <footer>
     <div style="align-self: center;">
-      <a href="https://github.com/@huement/Cosmicwave" rel="external"
-        style="display:inline-flex;align-items: center;gap:.25rem" aria-label="External link to Cosmicwave on Github"
+      <a href="https://github.com/@huement/CosmicWave" rel="external"
+        style="display:inline-flex;align-items: center;gap:.25rem" aria-label="External link to CosmicWave on Github"
         target="_blank">
         <i style="color:var(--theme);margin: -2px 0.5rem 0 0;" data-feather="github"></i>
         <p style="font-size:1rem;color:var(--theme-dark);line-height: 1.325rem;">
-          <em><strong>Cosmicwave</strong></em><br>on <strong>Github</strong>
+          <em><strong>CosmicWave</strong></em><br>on <strong>Github</strong>
         </p>
       </a>
     </div>
     <div style="align-self: center;">
       <a href="https://www.npmjs.com/package/cosmicwave" rel="external"
-        style="display:inline-flex;align-items: center;gap:.25rem" aria-label="External link to Cosmicwave on npmjs"
+        style="display:inline-flex;align-items: center;gap:.25rem" aria-label="External link to CosmicWave on npmjs"
         target="_blank">
         <i style="color:var(--theme);margin: -2px 0.5rem 0 0;" data-feather="code"></i>
         <p style="font-size:1rem;color:var(--theme-dark);line-height: 1.325rem;">
-          <em><strong>Cosmicwave</strong></em><br>on <strong>npmjs</strong>
+          <em><strong>CosmicWave</strong></em><br>on <strong>npmjs</strong>
         </p>
       </a>
     </div>
