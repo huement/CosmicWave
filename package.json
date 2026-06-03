@@ -10,10 +10,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c && npm run copy-to-docs",
-    "copy-to-docs": "cp dist/cosmicwave.js dist/cosmicwave.min.js dist/cosmicwave.d.ts docs/",
+    "build": "tsc && rollup -c && rimraf dist/types-temp && npm run copy-to-docs",
+    "copy-to-docs": "cp dist/*.js dist/*.min.js dist/*.d.ts docs/",
     "prepublishOnly": "npm run build",
-    "definitionFile": "tsc src/cosmicwave.js --declaration --allowJs --emitDeclarationOnly --outDir src",
     "serve": "http-server docs -p 8080 -o"
   },
   "repository": {
@@ -40,5 +39,8 @@
     "http-server": "^14.1.1",
     "rollup": "^3.29.4",
     "rollup-plugin-dts": "^6.1.1"
+  },
+  "dependencies": {
+    "rimraf": "^6.1.3"
   }
 }

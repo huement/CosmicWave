@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowJs": true,           // Allows TypeScript to look at JS files
+    "declaration": true,       // Generates .d.ts files
+    "emitDeclarationOnly": true, // Ensures it only outputs types, not copies of your JS
+    "outDir": "./dist/types-temp",       // Puts all .d.ts files in a specific folder
+    "rootDir": "./src",        // Sets the common source directory for output layout
+    "strict": false
+  },
+  "include": ["src/**/*"]
+}
