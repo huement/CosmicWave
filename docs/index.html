@@ -35,7 +35,7 @@
     class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-gradient-to-b from-violet-600/10 via-fuchsia-600/5 to-transparent blur-3xl pointer-events-none -z-10">
   </div>
 
-  <header class="max-w-5xl w-full mx-auto px-6 pt-16 pb-8 text-center">
+  <header class="w-full mx-auto px-6 pt-16 pb-8 text-center bg-fuchsia-600">
     <a href="#" class="inline-block hover:opacity-90 transition-opacity">
       <svg class="w-64 sm:w-80 mx-auto fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1872.909 344.309">
         <g id="ac1a2397-930f-4086-a261-2c2af2354957" data-name="Layer 2">
@@ -71,8 +71,8 @@
         </g>
       </svg>
     </a>
-    <p class="mt-4 text-neutral-400 max-w-xl mx-auto text-base sm:text-lg">
-      Buttery smooth, style-agnostic <strong class="text-white font-semibold">HTML Web Components</strong> that randomly
+    <p class="mt-4 text-neutral-900 max-w-xl mx-auto text-base sm:text-lg">
+      Buttery smooth, style-agnostic <strong class="text-black font-semibold">HTML Web Components</strong> that randomly
       compute and animate morphing SVG paths on render.
     </p>
     <div
@@ -82,9 +82,9 @@
     </div>
   </header>
 
-  <div class="w-full h-12 relative overflow-hidden bg-neutral-950 border-b border-neutral-900">
+  <div class="w-full h-[100px] mx-auto relative overflow-hidden bg-neutral-950 border-b border-neutral-900">
     <cosmic-wave data-wave-face="bottom" data-wave-points="10" data-variance="4" data-wave-speed="6000"
-      data-wave-animate="true" class="absolute inset-0 w-full h-full fill-neutral-900/40"></cosmic-wave>
+      data-wave-animate=true class="absolute inset-0 w-full h-full fill-fuchsia-600"></cosmic-wave>
   </div>
 
   <main class="max-w-5xl w-full mx-auto px-6 py-12 flex-1 space-y-16">
@@ -386,7 +386,7 @@
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
-  <script src="./cosmicwave.min.js"></script>
+  <script src="./cosmicwave.js"></script>
 
   <script>
     // State Tracker Object for Options Visualizer Configuration
@@ -412,11 +412,14 @@
       document.getElementById('val-variance').innerText = playgroundState.variance;
 
       // Update Selection States across Orientation Buttons
+      // Update Selection States across Orientation Buttons
       ['top', 'bottom', 'left', 'right'].forEach(direction => {
         const targetBtn = document.getElementById(`btn-face-${direction}`);
         if (playgroundState.face === direction) {
           targetBtn.classList.remove('bg-neutral-800', 'border-neutral-700', 'text-neutral-400');
-          targetBtn.classList.add('bg-violet-600', 'border-violet-500', 'text-white font-semibold');
+
+          // FIXED: Split 'text-white font-semibold' into individual string arguments
+          targetBtn.classList.add('bg-violet-600', 'border-violet-500', 'text-white', 'font-semibold');
         } else {
           targetBtn.classList.remove('bg-violet-600', 'border-violet-500', 'text-white', 'font-semibold');
           targetBtn.classList.add('bg-neutral-800', 'border-neutral-700', 'text-neutral-400');
@@ -464,7 +467,7 @@
 
       // Update Output String Representation Pane
       const plainTextCodeOutput =
-        `<cosmic-wave\n  data-wave-face="${playgroundState.face}"\n  data-wave-points="${playgroundState.points}"\n  data-variance="${playgroundState.variance}"${playgroundState.startEndZero ? '\n  data-start-end-zero="true"' : ''}${playgroundState.startZero ? '\n  data-start-zero="true"' : ''}${playgroundState.endZero ? '\n  data-end-zero="true"' : ''}${playgroundState.animate ? `\n  data-wave-animate="true"\n  data-wave-speed="${playgroundState.speed}"` : ''}\n  class="fill-violet-500">\n&lt;/cosmic-wave&gt;`;
+        `&lt;cosmic-wave&gt;\n  data-wave-face="${playgroundState.face}"\n  data-wave-points="${playgroundState.points}"\n  data-variance="${playgroundState.variance}"${playgroundState.startEndZero ? '\n  data-start-end-zero="true"' : ''}${playgroundState.startZero ? '\n  data-start-zero="true"' : ''}${playgroundState.endZero ? '\n  data-end-zero="true"' : ''}${playgroundState.animate ? `\n  data-wave-animate="true"\n  data-wave-speed="${playgroundState.speed}"` : ''}\n  class="fill-violet-500">\n&lt;/cosmic-wave&gt;`;
 
       const targetCodeBlock = document.getElementById('playground-code-output');
       targetCodeBlock.innerHTML = plainTextCodeOutput;

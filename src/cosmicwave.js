@@ -48,13 +48,13 @@ class CosmicWave extends HTMLElement {
    */
   connectedCallback() {
     const classes = this.className;
-    const id = this.id ?? Math.random().toString(36).substring(7);
-    const styles = this.getAttribute("style");
+    const id = this.id ?? Math.random().toString( 36 ).substring( 7 );
+    const styles = this.getAttribute( "style" );
 
-    const waveDirection = this.getAttribute("data-wave-face") || "top";
-    this.points = parseInt(this.getAttribute("data-wave-points")) || 6;
-    this.variance = parseFloat(this.getAttribute("data-variance")) || 3;
-    this.duration = parseFloat(this.getAttribute("data-wave-speed")) || 7500;
+    const waveDirection = this.getAttribute( "data-wave-face" ) || "top";
+    this.points = parseInt( this.getAttribute( "data-wave-points" ) ) || 6;
+    this.variance = parseFloat( this.getAttribute( "data-variance" ) ) || 3;
+    this.duration = parseFloat( this.getAttribute( "data-wave-speed" ) ) || 7500;
 
     this.vertical = waveDirection === "left" || waveDirection === "right";
     const flipX = waveDirection === "right";
@@ -68,7 +68,7 @@ class CosmicWave extends HTMLElement {
     this.endZero = this.getAttribute( 'data-end-zero' ) === 'true'
 
     // Initialize current and target paths
-    this.currentPath = generateWave({
+    this.currentPath = generateWave( {
       width: this.width,
       height: this.height,
       points: this.points,
@@ -77,9 +77,9 @@ class CosmicWave extends HTMLElement {
       startEndZero: this.startEndZero,
       startZero: this.startZero,
       endZero: this.endZero
-    });
+    } );
 
-    this.targetPath = generateWave({
+    this.targetPath = generateWave( {
       width: this.width,
       height: this.height,
       points: this.points,
@@ -88,7 +88,7 @@ class CosmicWave extends HTMLElement {
       startEndZero: this.startEndZero,
       startZero: this.startZero,
       endZero: this.endZero
-    });
+    } );
 
     // Construct the SVG
     this.innerHTML = `
@@ -111,23 +111,23 @@ class CosmicWave extends HTMLElement {
     `;
 
     // Save SVG references
-    this.svg = this.querySelector("svg");
-    this.path = this.querySelector("path");
+    this.svg = this.querySelector( "svg" );
+    this.path = this.querySelector( "path" );
 
     // Bind methods
-    this.play = this.play.bind(this);
-    this.pause = this.pause.bind(this);
-    this.generateNewWave = this.generateNewWave.bind(this);
+    this.play = this.play.bind( this );
+    this.pause = this.pause.bind( this );
+    this.generateNewWave = this.generateNewWave.bind( this );
 
     // Check for wave observation attribute
-    const observeAttr = this.getAttribute("data-wave-observe");
-    if (observeAttr) {
-      this.setupIntersectionObserver(observeAttr);
+    const observeAttr = this.getAttribute( "data-wave-observe" );
+    if ( observeAttr ) {
+      this.setupIntersectionObserver( observeAttr );
     }
 
     // Automatically start animation if enabled
-    if (this.getAttribute("data-wave-animate") === "true") {
-      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if ( this.getAttribute( "data-wave-animate" ) === "true" ) {
+      if ( !window.matchMedia( "(prefers-reduced-motion: reduce)" ).matches ) {
         this.play();
       }
     }
@@ -141,8 +141,8 @@ class CosmicWave extends HTMLElement {
    *
    * @param {number|null} [customDuration=null] - Optional custom duration for the animation in milliseconds.
    */
-  play(customDuration = null) {
-    if (this.isAnimating) return;
+  play( customDuration = null ) {
+    if ( this.isAnimating ) return;
     this.isAnimating = true;
 
     // Use custom duration if provided, otherwise use the instance duration
@@ -150,8 +150,8 @@ class CosmicWave extends HTMLElement {
 
     const continueAnimation = () => {
       // If there's no pending target path, generate a new one
-      if (!this.pendingTargetPath) {
-        this.pendingTargetPath = generateWave({
+      if ( !this.pendingTargetPath ) {
+        this.pendingTargetPath = generateWave( {
           width: this.width,
           height: this.height,
           points: this.points,
@@ -160,11 +160,11 @@ class CosmicWave extends HTMLElement {
           startEndZero: this.startEndZero,
           startZero: this.startZero,
           endZero: this.endZero
-        });
+        } );
       }
 
       // Animate to the pending target path
-      this.animateWave(animationDuration, () => {
+      this.animateWave( animationDuration, () => {
         // Update current path to the target path
         this.currentPath = this.targetPath;
 
@@ -172,7 +172,7 @@ class CosmicWave extends HTMLElement {
         this.targetPath = this.pendingTargetPath;
 
         // Clear the pending path and generate a new one for the next iteration
-        this.pendingTargetPath = generateWave({
+        this.pendingTargetPath = generateWave( {
           width: this.width,
           height: this.height,
           points: this.points,
@@ -181,13 +181,13 @@ class CosmicWave extends HTMLElement {
           startEndZero: this.startEndZero,
           startZero: this.startZero,
           endZero: this.endZero
-        });
+        } );
 
         // Continue the animation loop if still playing
-        if (this.isAnimating) {
+        if ( this.isAnimating ) {
           continueAnimation();
         }
-      });
+      } );
     };
 
     // Start the continuous animation
@@ -201,13 +201,13 @@ class CosmicWave extends HTMLElement {
    * and saves the current elapsed time.
    */
   pause() {
-    if (!this.isAnimating) return;
+    if ( !this.isAnimating ) return;
     this.isAnimating = false;
-    cancelAnimationFrame(this.animationFrameId);
+    cancelAnimationFrame( this.animationFrameId );
     this.animationFrameId = null;
 
     // Save the current elapsed time
-    this.elapsedTime += performance.now() - (this.startTime || performance.now());
+    this.elapsedTime += performance.now() - ( this.startTime || performance.now() );
     this.startTime = null;
   }
 
@@ -217,7 +217,7 @@ class CosmicWave extends HTMLElement {
    */
   disconnectedCallback() {
     // Clean up intersection observer when element is removed
-    if (this.intersectionObserver) {
+    if ( this.intersectionObserver ) {
       this.intersectionObserver.disconnect();
       this.intersectionObserver = null;
     }
@@ -239,9 +239,9 @@ class CosmicWave extends HTMLElement {
    * // Observe with custom root margin and continuous triggering
    * setupIntersectionObserver('continuous:10px');
    */
-  setupIntersectionObserver(observeConfig) {
+  setupIntersectionObserver( observeConfig ) {
     // Parse observation configuration
-    const [mode, rootMargin = '0px'] = observeConfig.split(':');
+    const [ mode, rootMargin = '0px' ] = observeConfig.split( ':' );
 
     // Determine observation mode
     const isOneTime = mode === 'once';
@@ -253,24 +253,24 @@ class CosmicWave extends HTMLElement {
       threshold: 0 // trigger as soon as element completely leaves/enters
     };
 
-    this.intersectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
+    this.intersectionObserver = new IntersectionObserver( ( entries ) => {
+      entries.forEach( ( entry ) => {
         // Trigger new wave when completely outside viewport
-        if (!entry.isIntersecting) {
+        if ( !entry.isIntersecting ) {
           // Generate new wave
           this.generateNewWave();
 
           // If one-time mode, disconnect observer
-          if (isOneTime) {
+          if ( isOneTime ) {
             this.intersectionObserver.disconnect();
             this.intersectionObserver = null;
           }
         }
-      });
-    }, this.observerOptions);
+      } );
+    }, this.observerOptions );
 
     // Start observing this element
-    this.intersectionObserver.observe(this);
+    this.intersectionObserver.observe( this );
   }
 
   // Public method to morph to a new wave
@@ -280,19 +280,19 @@ class CosmicWave extends HTMLElement {
    *
    * @param {number} [duration=800] - The duration of the wave animation in milliseconds. Minimum value is 1.
    */
-  generateNewWave(duration = 800) {
+  generateNewWave( duration = 800 ) {
     // Prevent multiple simultaneous wave generations
-    if (this.isGeneratingWave || this.animationFrameId) {
+    if ( this.isGeneratingWave || this.animationFrameId ) {
       return;
     }
 
-    if (duration < 1) duration = 1;
+    if ( duration < 1 ) duration = 1;
 
     // Set flag to prevent concurrent wave generations
     this.isGeneratingWave = true;
 
     // Set the pending target path to a new wave
-    this.pendingTargetPath = generateWave({
+    this.pendingTargetPath = generateWave( {
       width: this.width,
       height: this.height,
       points: this.points,
@@ -301,10 +301,10 @@ class CosmicWave extends HTMLElement {
       startEndZero: this.startEndZero,
       startZero: this.startZero,
       endZero: this.endZero
-    });
+    } );
 
     // Animate from current path to new target
-    this.animateWave(duration, () => {
+    this.animateWave( duration, () => {
       // Update paths
       this.currentPath = this.targetPath;
       this.targetPath = this.pendingTargetPath;
@@ -313,7 +313,7 @@ class CosmicWave extends HTMLElement {
       // Reset wave generation flag
       this.isGeneratingWave = false;
       this.animationFrameId = null;
-    });
+    } );
   }
 
   // Core animation logic
@@ -323,16 +323,15 @@ class CosmicWave extends HTMLElement {
    * @param {number} duration - The duration of the animation in milliseconds.
    * @param {Function} [onComplete=null] - Optional callback function to be called upon animation completion.
    */
-  animateWave(duration, onComplete = null) {
+  animateWave( duration, onComplete = null ) {
     // Ensure we have valid start and target paths
-    const startPoints = parsePath(this.currentPath);
-    const endPoints = parsePath(this.targetPath);
+    const startPoints = parsePath( this.currentPath );
+    const endPoints = parsePath( this.targetPath );
 
-    if (startPoints.length !== endPoints.length) {
-      console.error("Point mismatch! Regenerating waves to ensure consistency.");
+    if ( startPoints.length !== endPoints.length ) {
+      console.error( "Point mismatch! Regenerating waves to ensure consistency." );
 
-      // Regenerate both current and target paths to ensure consistency
-      this.currentPath = generateWave({
+      this.currentPath = generateWave( {
         width: this.width,
         height: this.height,
         points: this.points,
@@ -341,9 +340,9 @@ class CosmicWave extends HTMLElement {
         startEndZero: this.startEndZero,
         startZero: this.startZero,
         endZero: this.endZero
-      });
+      } );
 
-      this.targetPath = generateWave({
+      this.targetPath = generateWave( {
         width: this.width,
         height: this.height,
         points: this.points,
@@ -352,15 +351,16 @@ class CosmicWave extends HTMLElement {
         startEndZero: this.startEndZero,
         startZero: this.startZero,
         endZero: this.endZero
-      });
+      } );
 
+      this.animateWave( duration, onComplete );
       return;
     }
 
-    const animate = (timestamp) => {
-      if (!this.startTime) this.startTime = timestamp - this.elapsedTime;
+    const animate = ( timestamp ) => {
+      if ( !this.startTime ) this.startTime = timestamp - this.elapsedTime;
       const elapsed = timestamp - this.startTime;
-      const progress = Math.min(elapsed / duration, 1);
+      const progress = Math.min( elapsed / duration, 1 );
 
       const interpolatedPath = interpolateWave(
         startPoints,
@@ -371,26 +371,26 @@ class CosmicWave extends HTMLElement {
         this.width
       );
 
-      this.path.setAttribute("d", interpolatedPath);
+      this.path.setAttribute( "d", interpolatedPath );
 
-      if (progress < 1) {
-        this.animationFrameId = requestAnimationFrame(animate);
+      if ( progress < 1 ) {
+        this.animationFrameId = requestAnimationFrame( animate );
       } else {
         // Animation completed
         this.elapsedTime = 0;
         this.startTime = null;
 
         // Call completion callback if provided
-        if (onComplete) onComplete();
+        if ( onComplete ) onComplete();
       }
     };
 
-    this.animationFrameId = requestAnimationFrame(animate);
+    this.animationFrameId = requestAnimationFrame( animate );
   }
 }
 
 // Custom element definition
-customElements.define("cosmic-wave", CosmicWave);
+customElements.define( "cosmic-wave", CosmicWave );
 
 /**
  * Generates an SVG path string representing a wave pattern.
@@ -404,18 +404,18 @@ customElements.define("cosmic-wave", CosmicWave);
  * @param {boolean} [options.startEndZero=false] - Whether the wave should start and end small
  * @returns {string} The SVG path string representing the wave.
  */
-function generateWave({ width, height, points, variance, vertical = false, startEndZero = false, startZero = false, endZero = false }) {
+function generateWave( { width, height, points, variance, vertical = false, startEndZero = false, startZero = false, endZero = false } ) {
   const anchors = [];
-  const step = vertical ? height / (points - 1) : width / (points - 1);
+  const step = vertical ? height / ( points - 1 ) : width / ( points - 1 );
 
-  for (let i = 0; i < points; i++) {
+  for ( let i = 0; i < points; i++ ) {
     const x = vertical
       ? height - step * i
       : step * i;
     const y = vertical
-      ? width - width * 0.1 - Math.random() * (variance * width * 0.25)
-      : height - height * 0.1 - Math.random() * (variance * height * 0.25);
-    anchors.push(vertical ? { x: y, y: x } : { x, y });
+      ? width - width * 0.1 - Math.random() * ( variance * width * 0.25 )
+      : height - height * 0.1 - Math.random() * ( variance * height * 0.25 );
+    anchors.push( vertical ? { x: y, y: x } : { x, y } );
   }
 
   if ( startEndZero ) {
@@ -445,18 +445,18 @@ function generateWave({ width, height, points, variance, vertical = false, start
   }
 
   let path = vertical
-    ? `M ${width} ${height} L ${anchors[0].x} ${height}`
-    : `M 0 ${height} L 0 ${anchors[0].y}`;
+    ? `M ${width} ${height} L ${anchors[ 0 ].x} ${height}`
+    : `M 0 ${height} L 0 ${anchors[ 0 ].y}`;
 
-  for (let i = 0; i < anchors.length - 1; i++) {
-    const curr = anchors[i];
-    const next = anchors[i + 1];
-    const controlX = (curr.x + next.x) / 2;
-    const controlY = (curr.y + next.y) / 2;
+  for ( let i = 0; i < anchors.length - 1; i++ ) {
+    const curr = anchors[ i ];
+    const next = anchors[ i + 1 ];
+    const controlX = ( curr.x + next.x ) / 2;
+    const controlY = ( curr.y + next.y ) / 2;
     path += ` Q ${curr.x} ${curr.y}, ${controlX} ${controlY}`;
   }
 
-  const last = anchors[anchors.length - 1];
+  const last = anchors[ anchors.length - 1 ];
   path += vertical
     ? ` Q ${last.x} ${last.y}, 0 0 L ${width} 0 L ${width} ${height} Z`
     : ` Q ${last.x} ${last.y}, ${width} ${last.y} L ${width} ${height} Z`;
@@ -470,18 +470,20 @@ function generateWave({ width, height, points, variance, vertical = false, start
  * @param {string} pathString - The path string containing 'Q' commands followed by control point and end point coordinates.
  * @returns {Array<Object>} An array of objects, each containing the control point (cpX, cpY) and end point (x, y) coordinates.
  */
-function parsePath(pathString) {
+function parsePath( pathString ) {
   const points = [];
-  const regex = /Q\s([\d.]+)\s([\d.]+),\s([\d.]+)\s([\d.]+)/g;
+
+  // FIXED: Added -? inside the capture groups to support negative coordinates
+  const regex = /Q\s(-?[\d.]+)\s(-?[\d.]+),\s(-?[\d.]+)\s(-?[\d.]+)/g;
   let match;
 
-  while ((match = regex.exec(pathString)) !== null) {
-    points.push({
-      cpX: parseFloat(match[1]),
-      cpY: parseFloat(match[2]),
-      x: parseFloat(match[3]),
-      y: parseFloat(match[4]),
-    });
+  while ( ( match = regex.exec( pathString ) ) !== null ) {
+    points.push( {
+      cpX: parseFloat( match[ 1 ] ),
+      cpY: parseFloat( match[ 2 ] ),
+      x: parseFloat( match[ 3 ] ),
+      y: parseFloat( match[ 4 ] ),
+    } );
   }
   return points;
 }
@@ -497,23 +499,23 @@ function parsePath(pathString) {
  * @param {number} width - The width of the wave container.
  * @returns {string} - The SVG path data for the interpolated wave.
  */
-function interpolateWave(currentPoints, targetPoints, progress, vertical = false, height, width) {
-  const interpolatedPoints = currentPoints.map((current, i) => {
-    const target = targetPoints[i];
+function interpolateWave( currentPoints, targetPoints, progress, vertical = false, height, width ) {
+  const interpolatedPoints = currentPoints.map( ( current, i ) => {
+    const target = targetPoints[ i ];
     return {
-      cpX: current.cpX + (target.cpX - current.cpX) * progress,
-      cpY: vertical ? current.cpY : current.cpY + (target.cpY - current.cpY) * progress,
-      x: vertical ? current.x + (target.x - current.x) * progress : current.x,
-      y: vertical ? current.y : current.y + (target.y - current.y) * progress,
+      cpX: current.cpX + ( target.cpX - current.cpX ) * progress,
+      cpY: vertical ? current.cpY : current.cpY + ( target.cpY - current.cpY ) * progress,
+      x: vertical ? current.x + ( target.x - current.x ) * progress : current.x,
+      y: vertical ? current.y : current.y + ( target.y - current.y ) * progress,
     };
-  });
+  } );
 
   let path = vertical
-    ? `M ${width} ${height} L ${interpolatedPoints[0].x} ${height}`
-    : `M 0 ${height} L 0 ${interpolatedPoints[0].y}`;
+    ? `M ${width} ${height} L ${interpolatedPoints[ 0 ].x} ${height}`
+    : `M 0 ${height} L 0 ${interpolatedPoints[ 0 ].y}`;
 
-  for (let i = 0; i < interpolatedPoints.length; i++) {
-    const { cpX, cpY, x, y } = interpolatedPoints[i];
+  for ( let i = 0; i < interpolatedPoints.length; i++ ) {
+    const { cpX, cpY, x, y } = interpolatedPoints[ i ];
     path += ` Q ${cpX} ${cpY}, ${x} ${y}`;
   }
 
