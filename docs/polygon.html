@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en" class="bg-neutral-950 text-neutral-100 selection:bg-violet-500/30 selection:text-violet-200">
+
+<head>
+  <meta charset="utf-8">
+  <title>@huement/CosmicPoly — Generative SVG Polygon Templates</title>
+  <meta name="description" content="SVG wave templates that shuffle themselves natively on render.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    pre,
+    code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .main-logo {
+      width: 100%;
+      display: block;
+      margin: 1rem auto 0;
+      position: relative;
+      max-width: 800px;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased">
+
+  <div
+    class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-gradient-to-b from-violet-600/10 via-fuchsia-600/5 to-transparent blur-3xl pointer-events-none -z-10">
+  </div>
+
+  <header class="w-full mx-auto px-6 pt-16 pb-8 text-center bg-fuchsia-600">
+    <a href="https://huement.github.io/CosmicWave/" class="inline-block hover:opacity-90 transition-opacity">
+      <img src="imgs/cosmicpoly@2x.png" alt="Company Logo" class="main-logo">
+    </a>
+    <p class="mt-4 text-neutral-900 max-w-xl mx-auto text-base sm:text-lg">
+      CyberPunk Approved, style-agnostic <strong class="text-black font-semibold">HTML Web Components</strong> that randomly
+      compute and animate morphing SVG polygonal paths.
+    </p>
+    <div
+      class="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-neutral-900 border border-neutral-800 rounded-full text-xs text-neutral-400">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      5.4 KB minified • Zero Dependencies
+    </div>
+  </header>
+
+  <div class="w-full h-[100px] mx-auto relative bg-neutral-950">
+    <cosmic-poly data-wave-face="bottom" data-wave-points="12" data-variance="4" data-wave-speed="3000"
+      data-wave-animate="true" class="absolute inset-0 w-full h-full fill-fuchsia-600"></cosmic-poly>
+  </div>
+
+  <main class="max-w-5xl w-full mx-auto px-6 py-12 flex-1 space-y-16">
+    <p class="text-white font-mono text-sm">Looking for <strong>SMOOTH</strong> waves instead? Classic <a href="./index.html" class="text-cyan-500 font-black uppercase text-lg">cosmicwave</a> is here.</p>
+
+    <section class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div
+        class="p-6 bg-gradient-to-r from-neutral-900 to-neutral-850 border-b border-neutral-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <i data-feather="sliders" class="w-5 h-5 text-violet-400"></i> Interactive Wave Generator
+          </h2>
+          <p class="text-xs text-neutral-400 mt-1">Configure and view features natively generated in real-time.</p>
+        </div>
+        <button onclick="regeneratePlaygroundWave()"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 active:scale-98 text-neutral-200 text-sm font-medium rounded-lg transition-all border border-neutral-700">
+          <i data-feather="refresh-cw" class="w-4 h-4"></i> Trigger Morph
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12">
+        <div
+          class="lg:col-span-7 bg-neutral-950 p-8 flex items-center justify-center min-h-[320px] relative border-b lg:border-b-0 lg:border-r border-neutral-800 pattern-grid">
+          <div id="playground-wave-container" class="absolute inset-0 w-full h-full flex items-center justify-center">
+          </div>
+          <span class="absolute bottom-3 right-3 text-[10px] uppercase tracking-wider text-neutral-600 font-mono">Live
+            Visualizer</span>
+        </div>
+
+        <div class="lg:col-span-5 p-6 space-y-5 bg-neutral-900/50">
+          <div>
+            <label class="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">Orientation
+              (`data-wave-face`)</label>
+            <div class="grid grid-cols-4 gap-2">
+              <button onclick="setPlaygroundAttr('face', 'top')" id="btn-face-top"
+                class="py-1.5 bg-neutral-800 border border-neutral-700 rounded-md text-xs font-medium hover:bg-neutral-700 transition">Top</button>
+              <button onclick="setPlaygroundAttr('face', 'bottom')" id="btn-face-bottom"
+                class="py-1.5 bg-neutral-800 border border-neutral-700 rounded-md text-xs font-medium hover:bg-neutral-700 transition">Bottom</button>
+              <button onclick="setPlaygroundAttr('face', 'left')" id="btn-face-left"
+                class="py-1.5 bg-neutral-800 border border-neutral-700 rounded-md text-xs font-medium hover:bg-neutral-700 transition">Left</button>
+              <button onclick="setPlaygroundAttr('face', 'right')" id="btn-face-right"
+                class="py-1.5 bg-neutral-800 border border-neutral-700 rounded-md text-xs font-medium hover:bg-neutral-700 transition">Right</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-1">Points (<span
+                  id="val-points">6</span>)</label>
+              <input type="range" min="3" max="50" value="8" step="1" oninput="setPlaygroundAttr('points', this.value)"
+                class="w-full accent-violet-500 bg-neutral-800 rounded-lg appearance-none h-1.5">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-1">Variance (<span
+                  id="val-variance">3</span>)</label>
+              <input type="range" min="1" max="15" value="4" step="0.5"
+                oninput="setPlaygroundAttr('variance', this.value)"
+                class="w-full accent-violet-500 bg-neutral-800 rounded-lg appearance-none h-1.5">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">Zero Flattening
+              Modifiers</label>
+            <div class="space-y-2">
+              <label class="flex items-center gap-3 text-xs text-neutral-400 cursor-pointer select-none">
+                <input type="checkbox" id="chk-start-end-zero"
+                  onchange="setPlaygroundAttr('startEndZero', this.checked)"
+                  class="rounded bg-neutral-800 border-neutral-700 text-violet-500 focus:ring-0 w-4 h-4">
+                <span>`data-start-end-zero="true"` <span class="text-neutral-600">(Flatten both sides)</span></span>
+              </label>
+              <label class="flex items-center gap-3 text-xs text-neutral-400 cursor-pointer select-none">
+                <input type="checkbox" id="chk-start-zero" onchange="setPlaygroundAttr('startZero', this.checked)"
+                  class="rounded bg-neutral-800 border-neutral-700 text-violet-500 focus:ring-0 w-4 h-4">
+                <span>`data-start-zero="true"` <span class="text-neutral-600">(Flatten origin point only)</span></span>
+              </label>
+              <label class="flex items-center gap-3 text-xs text-neutral-400 cursor-pointer select-none">
+                <input type="checkbox" id="chk-end-zero" onchange="setPlaygroundAttr('endZero', this.checked)"
+                  class="rounded bg-neutral-800 border-neutral-700 text-violet-500 focus:ring-0 w-4 h-4">
+                <span>`data-end-zero="true"` <span class="text-neutral-600">(Flatten termination point
+                    only)</span></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="border-t border-neutral-800 pt-4 space-y-3">
+            <label
+              class="flex items-center gap-3 text-xs text-neutral-300 font-semibold uppercase tracking-wider cursor-pointer select-none">
+              <input type="checkbox" id="chk-animate" onchange="setPlaygroundAttr('animate', this.checked)"
+                class="rounded bg-neutral-800 border-neutral-700 text-violet-500 focus:ring-0 w-4 h-4">
+              <span>Enable Loop (`data-wave-animate`)</span>
+            </label>
+            <div>
+              <label class="block text-[11px] text-neutral-400 mb-1">Animation Loop Duration (`data-wave-speed` in
+                ms)</label>
+              <input type="number" id="num-speed" value="4000" step="500" min="500"
+                onchange="setPlaygroundAttr('speed', this.value)"
+                class="w-full bg-neutral-950 border border-neutral-800 rounded px-3 py-1.5 text-xs font-mono text-violet-400 focus:outline-none focus:border-neutral-700">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-neutral-950 border-t border-neutral-800 p-4 font-mono text-xs relative group">
+        <div
+          class="absolute right-4 top-3 text-neutral-600 group-hover:text-neutral-400 transition text-[10px] uppercase select-none">
+          Target Markup</div>
+        <pre><code class="language-html text-violet-300"
+            id="playground-code-output">&lt;cosmic-poly&gt;&lt;/cosmic-poly&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <div>
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <i data-feather="book-open" class="w-6 h-6 text-violet-400"></i> Complete Attributes API Reference
+        </h2>
+        <p class="text-sm text-neutral-400">All data attributes natively parsed out-of-the-box via component
+          declaration.</p>
+      </div>
+
+      <div class="overflow-x-auto border border-neutral-800 rounded-xl bg-neutral-900/40 backdrop-blur-sm">
+        <table class="w-full border-collapse text-left text-sm">
+          <thead>
+            <tr
+              class="border-b border-neutral-800 bg-neutral-900/80 text-xs font-semibold uppercase tracking-wider text-neutral-300">
+              <th class="p-4">Attribute String</th>
+              <th class="p-4">Evaluated Type</th>
+              <th class="p-4">Fallback Default</th>
+              <th class="p-4">Operational Details</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-neutral-800 font-normal text-neutral-400">
+            <tr class="hover:bg-neutral-900/30 transition">
+              <td class="p-4 font-mono text-white text-xs">data-wave-face</td>
+              <td class="p-4"><span
+                  class="px-2 py-0.5 bg-sky-500/10 text-sky-400 text-xs rounded border border-sky-500/20">String</span>
+              </td>
+              <td class="p-4 font-mono text-xs text-neutral-500">"top"</td>
+              <td class="p-4 text-xs">Cardinal rendering boundary face. Accepts <code
+                  class="text-neutral-200">"top"</code>, <code class="text-neutral-200">"bottom"</code>, <code
+                  class="text-neutral-200">"left"</code>, or <code class="text-neutral-200">"right"</code>.</td>
+            </tr>
+            <tr class="hover:bg-neutral-900/30 transition">
+              <td class="p-4 font-mono text-white text-xs">data-wave-points</td>
+              <td class="p-4"><span
+                  class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-xs rounded border border-emerald-500/20">Number</span>
+              </td>
+              <td class="p-4 font-mono text-xs text-neutral-500">6</td>
+              <td class="p-4 text-xs">Total computed cubic anchor interpolation nodes across layout vector boundaries.
+              </td>
+            </tr>
+            <tr class="hover:bg-neutral-900/30 transition">
+              <td class="p-4 font-mono text-white text-xs">data-variance</td>
+              <td class="p-4"><span
+                  class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-xs rounded border border-emerald-500/20">Number</span>
+              </td>
+              <td class="p-4 font-mono text-xs text-neutral-500">3</td>
+              <td class="p-4 text-xs">Randomized peak threshold multipliers. Defines maximum vector displacement
+                distance from midpoint path axis.</td>
+            </tr>
+            <tr class="hover:bg-neutral-900/30 transition">
+              <td class="p-4 font-mono text-white text-xs">data-wave-speed</td>
+              <td class="p-4"><span
+                  class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-xs rounded border border-emerald-500/20">Number</span>
+              </td>
+              <td class="p-4 font-mono text-xs text-neutral-500">7500</td>
+              <td class="p-4 text-xs">Execution execution time context in milliseconds for animated canvas path
+                intervals.</td>
+            </tr>
+            <tr class="hover:bg-neutral-900/30 transition">
+              <td class="p-4 font-mono text-white text-xs">data-start-end-zero</td>
+              <td class="p-4"><span
+                  class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-xs rounded border border-amber-500/20">Boolean</span>
+              </td>
+              <td class="p-4 font-mono text-xs text-neutral-500">false</td>
+              <td class="p-4 text-xs">Forces structural origin and termination anchor arrays to flatline directly along
+                base layout limits.</td>
+            </tr>
+            <tr class="hover:bg-neutral-900/30 transition">
+              <td class="p-4 font-mono text-white text-xs">data-start-zero</td>
+              <td class="p-4"><span
+                  class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-xs rounded border border-amber-500/20">Boolean</span>
+              </td>
+              <td class="p-4 font-mono text-xs text-neutral-500">false</td>
+              <td class="p-4 text-xs">Forces only the structural origin anchor point vector to flatline along layout
+                axis boundaries.</td>
+            </tr>
+            <tr class="hover:bg-neutral-900/30 transition">
+              <td class="p-4 font-mono text-white text-xs">data-end-zero</td>
+              <td class="p-4"><span
+                  class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-xs rounded border border-amber-500/20">Boolean</span>
+              </td>
+              <td class="p-4 font-mono text-xs text-neutral-500">false</td>
+              <td class="p-4 text-xs">Forces only the structural termination anchor point vector to flatline along
+                layout axis boundaries.</td>
+            </tr>
+            <tr class="hover:bg-neutral-900/30 transition">
+              <td class="p-4 font-mono text-white text-xs">data-wave-observe</td>
+              <td class="p-4"><span
+                  class="px-2 py-0.5 bg-sky-500/10 text-sky-400 text-xs rounded border border-sky-500/20">String</span>
+              </td>
+              <td class="p-4 font-mono text-xs text-neutral-500">unset</td>
+              <td class="p-4 text-xs">Wires a native <code class="text-neutral-200">IntersectionObserver</code>. Format
+                pattern: <code class="text-violet-400">mode:rootMargin</code> (e.g. <code
+                  class="text-neutral-300">"once:0px"</code> or <code class="text-neutral-300">"repeat:50px"</code>).
+              </td>
+            </tr>
+            <tr class="hover:bg-neutral-900/30 transition">
+              <td class="p-4 font-mono text-white text-xs">data-wave-animate</td>
+              <td class="p-4"><span
+                  class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-xs rounded border border-amber-500/20">Boolean</span>
+              </td>
+              <td class="p-4 font-mono text-xs text-neutral-500">false</td>
+              <td class="p-4 text-xs">Triggers continuous fluid looping instantly upon loading. Automatically bypassed
+                if browser metrics detect user prefers reduced motion.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 space-y-4">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i data-feather="terminal" class="w-5 h-5 text-violet-400"></i> Global Install via Package Manager
+        </h3>
+        <pre><code class="language-bash text-xs">npm install @huement/cosmicpoly</code></pre>
+        <p class="text-xs text-neutral-400 leading-relaxed">
+          Import the bundle directly inside application modules or entry pathways. Custom DOM elements mount seamlessly
+          into target environments.
+        </p>
+        <pre><code class="language-javascript text-xs">import '@huement/cosmicpoly';</code></pre>
+      </div>
+
+      <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 space-y-4">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i data-feather="globe" class="w-5 h-5 text-violet-400"></i> Direct Implementation Framework CDN
+        </h3>
+        <p class="text-xs text-neutral-400 leading-relaxed">
+          Drop the distributed module bundle pathway target directly within markup headers via a content delivery engine
+          network.
+        </p>
+        <pre><code class="language-html text-xs">&lt;script
+src="https://cdn.jsdelivr.net/gh/huement/CosmicWave@main/dist/cosmicpoly.min.js"
+crossorigin="anonymous"&gt;&lt;/script&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <div>
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <i data-feather="code" class="w-5 h-5 text-violet-400"></i> Public Programmatic Instance API Methods
+        </h2>
+        <p class="text-sm text-neutral-400">Access bound element instances directly through DOM reference handles.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-5 bg-neutral-900/50 border border-neutral-800 rounded-xl space-y-2">
+          <h4 class="font-mono text-cyan-400 text-sm">.generateNewWave(duration)</h4>
+          <p class="text-xs text-neutral-400 leading-relaxed">Calculates and triggers an immediate cubic translation
+            vector shift transition interpolation loop into an alternate randomized structure format config. Fallback
+            duration defaults to <code class="font-mono text-neutral-300">800ms</code>.</p>
+        </div>
+        <div class="p-5 bg-neutral-900/50 border border-neutral-800 rounded-xl space-y-2">
+          <h4 class="font-mono text-emerald-500 text-sm">.play(customDuration)</h4>
+          <p class="text-xs text-neutral-400 leading-relaxed">Forces immediate initialization sequence loops targeting
+            uninterrupted multi-point transition animations. Optionally overrides declared data metric loop speeds.</p>
+        </div>
+        <div class="p-5 bg-neutral-900/50 border border-neutral-800 rounded-xl space-y-2">
+          <h4 class="font-mono text-pink-500 text-sm">.pause()</h4>
+          <p class="text-xs text-neutral-400 leading-relaxed">Halts runtime execution frame loops instantly, freezing
+            target canvas paths safely at present progress index intervals and caching remaining delta execution
+            vectors.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="w-full bg-neutral-950 border-t border-neutral-900 py-12 px-6">
+    <div
+      class="max-w-5xl w-full mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-neutral-500">
+      <div class="flex items-center gap-8">
+        <a href="https://github.com/@huement/CosmicWave" target="_blank"
+          class="flex items-center gap-2 hover:text-neutral-300 transition">
+          <i data-feather="github" class="w-4 h-4 text-neutral-400"></i> Repository
+        </a>
+        <a href="https://www.npmjs.com/package/@huement/cosmicpoly" target="_blank"
+          class="flex items-center gap-2 hover:text-neutral-300 transition">
+          <i data-feather="box" class="w-4 h-4 text-neutral-400"></i> npm Package
+        </a>
+      </div>
+	  <div class="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-neutral-900/60 pt-6 font-mono text-[10px] sm:text-xs tracking-widest uppercase text-neutral-500">
+	      <div class="flex items-center gap-2">
+	          <span class="inline-block w-1.5 h-1.5 bg-cyan-400 animate-pulse"></span>
+	          <span>Built for the Open Web</span>
+	      </div>
+	      <div>
+	          by
+	          <a href="https://huement.com" target="_blank" class="font-black text-neutral-300 hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.4)] transition-all duration-300">
+	              // HUEMENT.COM
+	          </a>
+	      </div>
+	  </div>
+
+	  <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+	  <script type='text/javascript'>
+	      // Note: You can change '#cf5f5f' to '#00f0ff' to match your cyan UI themes!
+	      kofiwidget2.init('Buy Me A Coffee', '#cf5f5f', 'U1A7222617');
+	      kofiwidget2.draw();
+	  </script>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <script src="./cosmicpoly.js"></script>
+
+  <script>
+    // State Tracker Object for Options Visualizer Configuration
+    const playgroundState = {
+      face: 'bottom',
+      points: 8,
+      variance: 4,
+      startEndZero: false,
+      startZero: false,
+      endZero: false,
+      animate: false,
+      speed: 4000
+    };
+
+    function setPlaygroundAttr(key, val) {
+      playgroundState[key] = val;
+      renderPlaygroundWave();
+    }
+
+    function renderPlaygroundWave() {
+      // Synchronize text readouts inside UI tracking nodes
+      document.getElementById('val-points').innerText = playgroundState.points;
+      document.getElementById('val-variance').innerText = playgroundState.variance;
+
+      // Update Selection States across Orientation Buttons
+      // Update Selection States across Orientation Buttons
+      ['top', 'bottom', 'left', 'right'].forEach(direction => {
+        const targetBtn = document.getElementById(`btn-face-${direction}`);
+        if (playgroundState.face === direction) {
+          targetBtn.classList.remove('bg-neutral-800', 'border-neutral-700', 'text-neutral-400');
+
+          // FIXED: Split 'text-white font-semibold' into individual string arguments
+          targetBtn.classList.add('bg-violet-600', 'border-violet-500', 'text-white', 'font-semibold');
+        } else {
+          targetBtn.classList.remove('bg-violet-600', 'border-violet-500', 'text-white', 'font-semibold');
+          targetBtn.classList.add('bg-neutral-800', 'border-neutral-700', 'text-neutral-400');
+        }
+      });
+
+      // Assemble raw String syntax to place inside target elements
+      let attributeString =
+        `data-wave-face="${playgroundState.face}" data-wave-points="${playgroundState.points}" data-variance="${playgroundState.variance}"`;
+
+      if (playgroundState.startEndZero) attributeString += ` data-start-end-zero="true"`;
+      if (playgroundState.startZero) attributeString += ` data-start-zero="true"`;
+      if (playgroundState.endZero) attributeString += ` data-end-zero="true"`;
+      if (playgroundState.animate) attributeString +=
+        ` data-wave-animate="true" data-wave-speed="${playgroundState.speed}"`;
+
+      // Set Dynamic Presentation Sizing constraints depending on orientation target vectors
+      let styleString = `fill: url(#cosmicGlowGrad); width: 100%; height: 100%;`;
+      if (playgroundState.face === 'left' || playgroundState.face === 'right') {
+        styleString = `fill: url(#cosmicGlowGrad); width: 120px; height: 100%;`;
+      }
+
+      const mountedComponentString = `<cosmic-poly ${attributeString} style="${styleString}"></cosmic-poly>`;
+
+      // Inject explicitly into DOM target to enforce Web Component layout rebuild invocation rules
+      const container = document.getElementById('playground-wave-container');
+      container.innerHTML = mountedComponentString;
+
+      // Inject a reusable SVG Gradient definition block inside component nodes so live previews have depth
+      const targetWaveNode = container.querySelector('cosmic-poly');
+      if (targetWaveNode) {
+        // Appending definition markup elements inside components structure layer safely
+        const svgDefBlock = `
+          <svg style="width:0;height:0;position:absolute;">
+            <defs>
+              <linearGradient id="cosmicGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.8" />
+                <stop offset="100%" stop-color="#d946ef" stop-opacity="0.3" />
+              </linearGradient>
+            </defs>
+          </svg>
+        `;
+        targetWaveNode.insertAdjacentHTML('beforeend', svgDefBlock);
+      }
+
+      // Update Output String Representation Pane
+      const plainTextCodeOutput =
+        `&lt;cosmic-poly&gt;\n  data-wave-face="${playgroundState.face}"\n  data-wave-points="${playgroundState.points}"\n  data-variance="${playgroundState.variance}"${playgroundState.startEndZero ? '\n  data-start-end-zero="true"' : ''}${playgroundState.startZero ? '\n  data-start-zero="true"' : ''}${playgroundState.endZero ? '\n  data-end-zero="true"' : ''}${playgroundState.animate ? `\n  data-wave-animate="true"\n  data-wave-speed="${playgroundState.speed}"` : ''}\n  class="fill-violet-500">\n&lt;/cosmic-poly&gt;`;
+
+      const targetCodeBlock = document.getElementById('playground-code-output');
+      targetCodeBlock.innerHTML = plainTextCodeOutput;
+      hljs.highlightElement(targetCodeBlock);
+    }
+
+    function regeneratePlaygroundWave() {
+      const activeWaveComponent = document.querySelector('#playground-wave-container cosmic-poly');
+      if (activeWaveComponent && typeof activeWaveComponent.generateNewWave === 'function') {
+        activeWaveComponent.generateNewWave(600);
+      }
+    }
+
+    // Initialize Runtime Systems
+    document.addEventListener('DOMContentLoaded', () => {
+      feather.replace({
+        'stroke-width': ".14rem",
+        'class': 'text-neutral-400'
+      });
+      renderPlaygroundWave();
+      hljs.highlightAll();
+    });
+  </script>
+</body>
+</html>

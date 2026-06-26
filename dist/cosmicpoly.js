@@ -67,36 +67,15 @@
       this.width = this.vertical ? 160 : 1440;
       this.height = this.vertical ? 1440 : 160;
 
-      this.startEndZero = this.getAttribute( 'data-start-end-zero' ) === 'true';
-      this.startZero = this.getAttribute( 'data-start-zero' ) === 'true';
-      this.endZero = this.getAttribute( 'data-end-zero' ) === 'true';
+      this.startEndZero = this.getAttribute('data-start-end-zero') === 'true';
+      this.startZero = this.getAttribute('data-start-zero') === 'true';
+      this.endZero = this.getAttribute('data-end-zero') === 'true';
 
-      // Initialize current and target paths
-      this.currentPath = generateWave({
-        width: this.width,
-        height: this.height,
-        points: this.points,
-        variance: this.variance,
-        vertical: this.vertical,
-        startEndZero: this.startEndZero,
-        startZero: this.startZero,
-        endZero: this.endZero
-      });
+      this.currentPath = this.getWaveString();
+      this.targetPath = this.getWaveString();
 
-      this.targetPath = generateWave({
-        width: this.width,
-        height: this.height,
-        points: this.points,
-        variance: this.variance,
-        vertical: this.vertical,
-        startEndZero: this.startEndZero,
-        startZero: this.startZero,
-        endZero: this.endZero
-      });
-
-      // Construct the SVG
+      // ⚡ FIXED: Removed XML header metadata strings which break minified distribution builds
       this.innerHTML = `
-      <?xml version="1.0" encoding="utf-8"?>
       <svg
         version="1.1"
         viewBox="${this.vertical ? "0 0 160 1440" : "0 0 1440 160"}"
@@ -107,33 +86,42 @@
         aria-hidden="true"
         role="presentation"
         xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
       >
         <path d="${this.currentPath}" style="stroke:inherit; fill: inherit"></path>
       </svg>
     `;
 
-      // Save SVG references
       this.svg = this.querySelector("svg");
       this.path = this.querySelector("path");
 
-      // Bind methods
       this.play = this.play.bind(this);
       this.pause = this.pause.bind(this);
       this.generateNewWave = this.generateNewWave.bind(this);
 
-      // Check for wave observation attribute
       const observeAttr = this.getAttribute("data-wave-observe");
       if (observeAttr) {
         this.setupIntersectionObserver(observeAttr);
       }
 
-      // Automatically start animation if enabled
       if (this.getAttribute("data-wave-animate") === "true") {
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           this.play();
         }
       }
+    }
+
+    // ⚡ HELPER ADDITION: Keeping path generation dry across your builds
+    getWaveString() {
+      return generateWave({
+        width: this.width,
+        height: this.height,
+        points: this.points,
+        variance: this.variance,
+        vertical: this.vertical,
+        startEndZero: this.startEndZero,
+        startZero: this.startZero,
+        endZero: this.endZero
+      });
     }
 
     // Public method to play the animation
@@ -362,7 +350,8 @@
    */
   function parsePath(pathString) {
     const points = [];
-    const regex = /(?:M|L)\s([\d.]+)\s([\d.]+)/g;
+    // ⚡ FIXED: Added -? to cleanly capture negative coordinates
+    const regex = /(?:M|L)\s(-?[\d.]+)\s(-?[\d.]+)/g;
     let match;
 
     while ((match = regex.exec(pathString)) !== null) {

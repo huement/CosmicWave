@@ -1,14 +1,26 @@
 {
   "name": "@huement/cosmicwave",
-  "version": "0.5.2",
+  "version": "0.9.0",
   "type": "module",
-  "description": "Lightweight, dependency-free SVG wave templates that dynamically generate themselves on render.",
+  "description": "Lightweight, dependency-free animated SVG render. Use web-components to eaesily create waves and polygons.",
   "main": "dist/cosmicwave.js",
   "module": "dist/cosmicwave.js",
   "types": "dist/cosmicwave.d.ts",
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/cosmicwave.d.ts",
+      "import": "./dist/cosmicwave.js",
+      "default": "./dist/cosmicwave.js"
+    },
+    "./poly": {
+      "types": "./dist/cosmicpoly.d.ts",
+      "import": "./dist/cosmicpoly.js",
+      "default": "./dist/cosmicpoly.js"
+    }
+  },
   "scripts": {
     "build": "tsc && rollup -c && rimraf dist/types-temp && npm run copy-to-docs",
     "copy-to-docs": "cp dist/*.js dist/*.min.js dist/*.d.ts docs/",
@@ -33,7 +45,7 @@
   "bugs": {
     "url": "https://github.com/huement/CosmicWave/issues"
   },
-  "homepage": "https://CosmicWave.huement.com/",
+  "homepage": "https://huement.github.io/CosmicWave",
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
     "http-server": "^14.1.1",
